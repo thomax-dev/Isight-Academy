@@ -37,8 +37,13 @@ interface AcademicContextType {
   isDarkMode: boolean;
   showAllConnections: boolean;
   canUndo: boolean;
+  sidebarOpen: boolean;
+  currentPhase: number;
 
   // Actions
+  setSidebarOpen: (open: boolean) => void;
+  toggleSidebar: () => void;
+  setCurrentPhase: (phase: number) => void;
   approveSubject: (id: string) => void;
   reproveSubject: (id: string) => void;
   retakeSubject: (id: string) => void;
@@ -81,6 +86,8 @@ export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [areaFilter, setAreaFilter] = useState<KnowledgeArea | 'ALL'>('ALL');
   const [seasonalityFilter, setSeasonalityFilter] = useState<SeasonalityFilter>('ALL');
   const [showAllConnections, setShowAllConnections] = useState<boolean>(false);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  const [currentPhase, setCurrentPhase] = useState<number>(1);
 
   // Dark Mode
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -211,6 +218,7 @@ export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     });
 
     setManualStatuses(newStatuses);
+    setCurrentPhase(targetSemester);
     setOnboardingOpen(false);
     setImmediateImpact(null);
   }, [manualStatuses, pushHistory]);
@@ -219,6 +227,7 @@ export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const resetSimulation = useCallback(() => {
     pushHistory({ ...manualStatuses });
     setManualStatuses({});
+    setCurrentPhase(1);
     setImmediateImpact(null);
     setSelectedSubjectId(null);
     setHoveredSubjectId(null);
@@ -241,6 +250,10 @@ export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setShowAllConnections((prev) => !prev);
   }, []);
 
+  const toggleSidebar = useCallback(() => {
+    setSidebarOpen((prev) => !prev);
+  }, []);
+
   const value = {
     subjectStates,
     metrics,
@@ -260,7 +273,12 @@ export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     isDarkMode,
     showAllConnections,
     canUndo: history.length > 0,
+    sidebarOpen,
+    currentPhase,
 
+    setSidebarOpen,
+    toggleSidebar,
+    setCurrentPhase,
     approveSubject,
     reproveSubject,
     retakeSubject,

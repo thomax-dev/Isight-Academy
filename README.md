@@ -35,11 +35,15 @@ Após a realização de testes A/B de alta fidelidade entre dois protótipos (*L
 4. **Incorporação dos Indicadores Analíticos do v0**:
    - **Dashboard Dinâmico**: Carga Horária Aprovada vs. Pendente (base 3.200h), % de Integralização e Semestres Estimados via Caminho Crítico.
    - **Ficha Técnica & Teto Máximo de Faltas**: Exibição da carga horária e do limite legal de 25% de faltas permitidas em cada disciplina.
-5. **Slide-Over Drawer de Impacto Imediato ("Efeito Dominó")**:
+5. **Menu Lateral Estratégico (Maior Impacto & % das Trilhas)**:
+   - **Disciplinas de Maior Impacto**: Destaque dinâmico das disciplinas que bloqueiam mais matérias dependentes ou possuem maior profundidade no grafo, com badge de cadeados e clique para focar instantaneamente no grafo.
+   - **Porcentagem de Cada Trilha**: Acompanhamento em tempo real da % de conclusão de cada trilha do conhecimento (Matemática, Hardware, Banco de Dados, Redes, Software, etc.) com barras de progresso dedicadas e lista expansível de disciplinas.
+   - **Fase Atual & Sazonalidade**: Seletor rápido de fase (1ª a 8ª) e filtro de sazonalidade (Todas, Ímpares, Pares) diretamente no menu lateral.
+6. **Slide-Over Drawer de Impacto Imediato ("Efeito Dominó")**:
    - Painel lateral que exibe em tempo real a lista de matérias destravadas por uma aprovação ou a cascata de bloqueios gerada por uma reprovação, além do cálculo de atraso em semestres na formatura.
-6. **Onboarding Wizard de 2 Etapas**:
+7. **Onboarding Wizard de 2 Etapas**:
    - Início manual limpo ou seleção rápida por Semestre Atual (aprovando automaticamente semestres anteriores e liberando a fase vigente).
-7. **Exportação do Plano de Estudos em PDF / Impressão Formatada**:
+8. **Exportação do Plano de Estudos em PDF / Impressão Formatada**:
    - Resumo oficial com cabeçalho institucional da UNEMAT Jane Vanini, pronto para visualização, salvamento em PDF e impressão.
 
 ---

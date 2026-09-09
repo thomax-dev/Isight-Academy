@@ -7,7 +7,9 @@ import {
   FileDown, 
   Sun, 
   Moon, 
-  Network
+  Network,
+  PanelLeft,
+  PanelLeftClose
 } from 'lucide-react';
 import { useAcademicStore } from '../../store/useAcademicStore';
 
@@ -22,13 +24,24 @@ export const Navbar: React.FC = () => {
     setExportModalOpen,
     showAllConnections,
     toggleShowAllConnections,
+    sidebarOpen,
+    toggleSidebar,
   } = useAcademicStore();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Left Brand */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Botão de Toggle do Menu Lateral */}
+          <button
+            onClick={toggleSidebar}
+            className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            title={sidebarOpen ? "Recolher Menu Lateral" : "Expandir Menu Lateral (Maior Impacto e Trilhas)"}
+          >
+            {sidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeft className="w-5 h-5 text-blue-600 dark:text-blue-400" />}
+          </button>
+
           <div className="p-2 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20">
             <GraduationCap className="w-6 h-6" />
           </div>
