@@ -60,6 +60,15 @@ export function computeCurriculumStates(
 ): SubjectStatesMap {
   const result: SubjectStatesMap = {};
 
+  // Calculate current approved hours to check percentage-based prerequisites (like 50% for TCC I and Estágio)
+  let approvedHours = 0;
+  PPC_2023_SUBJECTS.forEach((s) => {
+    if (manualStatuses[s.id] === 'APPROVED') {
+      approvedHours += s.workloadHours;
+    }
+  });
+  const progressPercent = (approvedHours / TOTAL_CURRICULUM_HOURS) * 100;
+
   // Sort subjects by semester (1 to 8) to ensure topological order
   const sortedSubjects = [...PPC_2023_SUBJECTS].sort((a, b) => a.semester - b.semester);
 
@@ -76,18 +85,17 @@ export function computeCurriculumStates(
       continue;
     }
 
-    // Check prerequisites
+    // Check course progress percentage requirement (e.g. 50% for TCC I and Estágio)
+    const meetsCreditsRequirement = !subject.minCreditsPercentage || progressPercent >= subject.minCreditsPercentage;
+
+    // Check direct prerequisites
     const prereqs = subject.prerequisites;
-    if (prereqs.length === 0) {
-      // Semester 1 subjects with no prerequisites are AVAILABLE by default unless approved or retake
+    const allPrereqsApproved = prereqs.every((pId) => result[pId]?.status === 'APPROVED');
+
+    if (allPrereqsApproved && meetsCreditsRequirement) {
       result[subject.id] = { status: 'AVAILABLE' };
     } else {
-      const allPrereqsApproved = prereqs.every((pId) => result[pId]?.status === 'APPROVED');
-      if (allPrereqsApproved) {
-        result[subject.id] = { status: 'AVAILABLE' };
-      } else {
-        result[subject.id] = { status: 'LOCKED' };
-      }
+      result[subject.id] = { status: 'LOCKED' };
     }
   }
 

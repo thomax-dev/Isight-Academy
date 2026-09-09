@@ -163,7 +163,11 @@ export const ExportPlanModal: React.FC = () => {
                         <td className="p-2 border border-slate-300 text-center">{subj.workloadHours}h</td>
                         <td className="p-2 border border-slate-300 text-center text-slate-600">{subj.maxAbsencesHours}h</td>
                         <td className="p-2 border border-slate-300 font-mono text-[11px] text-slate-600">
-                          {subj.prerequisites.length > 0 ? subj.prerequisites.join(', ') : 'Nenhum'}
+                          {subj.prerequisites.length > 0 
+                            ? subj.prerequisites.join(', ') 
+                            : subj.minCreditsPercentage 
+                            ? `${subj.minCreditsPercentage}% dos créditos` 
+                            : 'Nenhum'}
                         </td>
                         <td className="p-2 border border-slate-300 text-center">{statusBadge}</td>
                       </tr>

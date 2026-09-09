@@ -27,6 +27,7 @@ export const SubjectDetailsModal: React.FC = () => {
     reproveSubject,
     retakeSubject,
     resetSubject,
+    metrics,
   } = useAcademicStore();
 
   if (!infoModalSubjectId) return null;
@@ -124,17 +125,45 @@ export const SubjectDetailsModal: React.FC = () => {
             </div>
           </div>
 
-          {/* Pré-requisitos Exigidos */}
+            {/* Pré-requisitos Exigidos */}
           <div className="space-y-2">
             <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 text-red-500" />
               Pré-requisitos Exigidos para Matrícula
             </h3>
-            {subject.prerequisites.length === 0 ? (
+
+            {/* Requisito de percentual de créditos */}
+            {subject.minCreditsPercentage && (
+              <div className={`p-2.5 rounded-xl border flex items-center justify-between text-xs ${
+                metrics.progressPercentage >= subject.minCreditsPercentage
+                  ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200'
+                  : 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900 text-amber-800 dark:text-amber-200'
+              }`}>
+                <div>
+                  <span className="font-bold block">
+                    Carga Horária Mínima Integralizada
+                  </span>
+                  <span className="text-[11px] opacity-90">
+                    Requer no mínimo <strong>{subject.minCreditsPercentage}% dos créditos</strong> do curso (Você possui {metrics.progressPercentage}%).
+                  </span>
+                </div>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  metrics.progressPercentage >= subject.minCreditsPercentage
+                    ? 'bg-emerald-200 dark:bg-emerald-900 text-emerald-900 dark:text-emerald-100'
+                    : 'bg-amber-200 dark:bg-amber-900 text-amber-900 dark:text-amber-100'
+                }`}>
+                  {metrics.progressPercentage >= subject.minCreditsPercentage ? 'Atingido' : 'Pendente'}
+                </span>
+              </div>
+            )}
+
+            {subject.prerequisites.length === 0 && !subject.minCreditsPercentage ? (
               <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
                 Nenhum pré-requisito exigido. Matéria de entrada ou livre!
               </p>
-            ) : (
+            ) : null}
+
+            {subject.prerequisites.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {subject.prerequisites.map((prereqId) => {
                   const pSubj = SUBJECT_MAP.get(prereqId);

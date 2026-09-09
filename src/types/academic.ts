@@ -20,6 +20,7 @@ export interface Subject {
   areaLabel: string;
   prerequisites: string[]; // Subject IDs that must be APPROVED
   corequisites?: string[]; // Co-requisites in the same semester
+  minCreditsPercentage?: number; // Minimum course progress required (e.g. 50% for TCC I and Estágio)
   description: string;
 }
 

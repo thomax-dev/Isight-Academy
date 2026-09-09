@@ -292,9 +292,19 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({ subject }) => {
 
       {/* 3. Footer (Base) */}
       <div className="pt-2 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-        <div className="truncate max-w-[170px]" title={subject.prerequisites.length > 0 ? `Pré-requisitos: ${subject.prerequisites.join(', ')}` : 'Sem pré-requisitos'}>
+        <div className="truncate max-w-[170px]" title={
+          subject.prerequisites.length > 0 
+            ? `Pré-requisitos: ${subject.prerequisites.join(', ')}` 
+            : subject.minCreditsPercentage 
+            ? `Requer ${subject.minCreditsPercentage}% dos créditos do curso` 
+            : 'Sem pré-requisitos'
+        }>
           {subject.prerequisites.length === 0 ? (
-            <span className="text-emerald-600 dark:text-emerald-400 font-medium">Sem pré-req.</span>
+            subject.minCreditsPercentage ? (
+              <span className="text-amber-600 dark:text-amber-400 font-medium">Req: {subject.minCreditsPercentage}% créditos</span>
+            ) : (
+              <span className="text-emerald-600 dark:text-emerald-400 font-medium">Sem pré-req.</span>
+            )
           ) : (
             <span className="font-mono">
               Req: <strong className="text-slate-700 dark:text-slate-300">{subject.prerequisites.join(', ')}</strong>
